@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a56db" />
+  <meta name="description" content="Calculadora de Paletes Camil - Conferência de Carga" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Paletes Camil" />
+  <title>🏭 Conferência de Paletes</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-logo">📦</div>
+      <div>
+        <h1 class="header-title">Conferência de Paletes</h1>
+        <p class="header-sub">Camil Alimentos</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- CARD: BUSCA DE PRODUTO -->
+    <section class="card" id="card-busca">
+      <h2 class="card-title">🔍 Selecionar Produto</h2>
+
+      <div class="field-group">
+        <label class="field-label" for="busca-input">Código ou Descrição</label>
+        <div class="search-wrapper">
+          <input
+            type="text"
+            id="busca-input"
+            class="field-input"
+            placeholder="Ex: 1131 ou ARROZ BRANCO..."
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+          />
+          <button class="btn-clear-search" id="btn-clear-search" title="Limpar busca" aria-label="Limpar busca">✕</button>
+        </div>
+        <div id="autocomplete-list" class="autocomplete-list" role="listbox" aria-label="Sugestões de produtos"></div>
+      </div>
+
+      <!-- Produto selecionado -->
+      <div id="produto-selecionado" class="produto-badge hidden">
+        <div class="produto-badge-icon">✅</div>
+        <div class="produto-badge-info">
+          <span class="produto-badge-code" id="badge-code"></span>
+          <span class="produto-badge-name" id="badge-name"></span>
+          <span class="produto-badge-palete" id="badge-palete"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARD: QUANTIDADE -->
+    <section class="card" id="card-qtd">
+      <h2 class="card-title">🔢 Quantidade Recebida</h2>
+      <div class="field-group">
+        <label class="field-label" for="qtd-input">Total de Caixas / Fardos</label>
+        <input
+          type="number"
+          id="qtd-input"
+          class="field-input field-input-big"
+          placeholder="0"
+          min="0"
+          inputmode="numeric"
+          pattern="[0-9]*"
+        />
+      </div>
+      <button class="btn btn-primary" id="btn-calcular">
+        <span>Calcular Paletes</span>
+      </button>
+    </section>
+
+    <!-- CARD: RESULTADO -->
+    <section class="card card-resultado hidden" id="card-resultado">
+      <h2 class="card-title">📊 Resultado</h2>
+
+      <div class="resultado-produto" id="res-produto-info"></div>
+
+      <div class="resultado-grid">
+        <div class="resultado-item resultado-item--paletes">
+          <div class="resultado-icon">🏗️</div>
+          <div class="resultado-numero" id="res-paletes">0</div>
+          <div class="resultado-label">Paletes Fechados</div>
+        </div>
+        <div class="resultado-item resultado-item--avulsas">
+          <div class="resultado-icon">📦</div>
+          <div class="resultado-numero" id="res-avulsas">0</div>
+          <div class="resultado-label">Caixas Avulsas</div>
+        </div>
+      </div>
+
+      <button class="btn btn-success" id="btn-adicionar">
+        ➕ Adicionar à Carga
+      </button>
+    </section>
+
+    <!-- CARD: HISTÓRICO / CARGA -->
+    <section class="card" id="card-carga">
+      <div class="carga-header">
+        <h2 class="card-title" style="margin-bottom:0">🚛 Carga do Caminhão</h2>
+        <button class="btn btn-danger-sm" id="btn-limpar-carga">🗑️ Limpar</button>
+      </div>
+
+      <!-- Resumo total -->
+      <div class="carga-resumo" id="carga-resumo">
+        <div class="resumo-item">
+          <span class="resumo-valor" id="total-paletes">0</span>
+          <span class="resumo-label">Paletes</span>
+        </div>
+        <div class="resumo-divider"></div>
+        <div class="resumo-item">
+          <span class="resumo-valor" id="total-avulsas">0</span>
+          <span class="resumo-label">Cx Avulsas</span>
+        </div>
+        <div class="resumo-divider"></div>
+        <div class="resumo-item">
+          <span class="resumo-valor" id="total-itens">0</span>
+          <span class="resumo-label">Produtos</span>
+        </div>
+      </div>
+
+      <!-- Lista de itens -->
+      <div id="lista-carga" class="lista-carga">
+        <div class="lista-vazia" id="lista-vazia">
+          <p>Nenhum item adicionado ainda.</p>
+          <p>Calcule e adicione produtos à carga.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+  <script src="dados.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
