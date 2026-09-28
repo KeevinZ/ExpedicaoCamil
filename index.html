@@ -12,9 +12,9 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-  <!-- HEADER -->
   <header class="app-header">
     <div class="header-inner">
       <div class="header-logo">📦</div>
@@ -27,13 +27,146 @@
 
   <main class="container">
 
-    <!-- CARD: BUSCA DE PRODUTO -->
+    <!-- GERENCIAMENTO DE CARGAS -->
+    <section class="card" id="card-cargas">
+
+      <div class="cargas-top">
+        <div>
+          <h2 class="card-title">🚛 Cargas</h2>
+          <p class="cargas-descricao">Selecione uma carga ou crie uma nova.</p>
+        </div>
+
+        <button class="btn btn-primary btn-nova-carga" id="btn-nova-carga">
+          ➕ Nova carga
+        </button>
+      </div>
+
+      <!-- Nova carga -->
+      <div class="nova-carga-box hidden" id="nova-carga-box">
+
+        <div class="nova-carga-titulo">Nova carga</div>
+
+        <div class="field-group">
+          <label class="field-label" for="doca-select">Doca</label>
+
+          <select id="doca-select" class="field-input field-select">
+            <option value="">Selecione a doca</option>
+            <option value="1">Doca 01</option>
+            <option value="2">Doca 02</option>
+            <option value="3">Doca 03</option>
+            <option value="4">Doca 04</option>
+            <option value="5">Doca 05</option>
+            <option value="6">Doca 06</option>
+            <option value="7">Doca 07</option>
+            <option value="8">Doca 08</option>
+            <option value="9">Doca 09</option>
+            <option value="10">Doca 10</option>
+            <option value="11">Doca 11</option>
+          </select>
+        </div>
+
+        <div class="nova-carga-acoes">
+          <button class="btn btn-primary" id="btn-criar-carga">
+            Criar carga
+          </button>
+
+          <button class="btn btn-secondary" id="btn-cancelar-nova-carga">
+            Cancelar
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Cargas em andamento -->
+      <div id="lista-cargas-ativas" class="lista-cargas"></div>
+
+      <!-- Histórico -->
+      <div id="historico-cargas" class="historico-cargas hidden">
+        <div class="historico-titulo">
+          Histórico de cargas
+        </div>
+
+        <div id="lista-cargas-finalizadas" class="lista-cargas"></div>
+      </div>
+
+    </section>
+
+
+    <!-- CARGA ATIVA -->
+    <section class="card card-carga-ativa hidden" id="card-carga-ativa">
+
+      <div class="carga-header">
+
+        <div>
+          <h2 class="card-title" style="margin-bottom:3px">
+            🚛 <span id="carga-titulo">Carga</span>
+          </h2>
+
+          <div class="carga-identificacao">
+            <span id="carga-doca">Doca --</span>
+            <span class="status-carga" id="carga-status">Em carregamento</span>
+          </div>
+        </div>
+
+        <button class="btn btn-danger-sm" id="btn-limpar-carga">
+          🗑️ Limpar
+        </button>
+
+      </div>
+
+      <!-- Resumo -->
+      <div class="carga-resumo" id="carga-resumo">
+
+        <div class="resumo-item">
+          <span class="resumo-valor" id="total-paletes">0</span>
+          <span class="resumo-label">Paletes</span>
+        </div>
+
+        <div class="resumo-divider"></div>
+
+        <div class="resumo-item">
+          <span class="resumo-valor" id="total-avulsas">0</span>
+          <span class="resumo-label">Cx Avulsas</span>
+        </div>
+
+        <div class="resumo-divider"></div>
+
+        <div class="resumo-item">
+          <span class="resumo-valor" id="total-itens">0</span>
+          <span class="resumo-label">Produtos</span>
+        </div>
+
+      </div>
+
+      <div id="lista-carga" class="lista-carga">
+
+        <div class="lista-vazia" id="lista-vazia">
+          <p>Nenhum item adicionado ainda.</p>
+          <p>Calcule e adicione produtos à carga.</p>
+        </div>
+
+      </div>
+
+      <button class="btn btn-finalizar" id="btn-finalizar-carga">
+        ✓ Finalizar carga
+      </button>
+
+    </section>
+
+
+    <!-- BUSCA DE PRODUTO -->
     <section class="card" id="card-busca">
+
       <h2 class="card-title">🔍 Selecionar Produto</h2>
 
       <div class="field-group">
-        <label class="field-label" for="busca-input">Código ou Descrição</label>
+
+        <label class="field-label" for="busca-input">
+          Código ou Descrição
+        </label>
+
         <div class="search-wrapper">
+
           <input
             type="text"
             id="busca-input"
@@ -43,27 +176,57 @@
             autocorrect="off"
             spellcheck="false"
           />
-          <button class="btn-clear-search" id="btn-clear-search" title="Limpar busca" aria-label="Limpar busca">✕</button>
+
+          <button
+            class="btn-clear-search"
+            id="btn-clear-search"
+            title="Limpar busca"
+            aria-label="Limpar busca"
+          >
+            ✕
+          </button>
+
         </div>
-        <div id="autocomplete-list" class="autocomplete-list" role="listbox" aria-label="Sugestões de produtos"></div>
+
+        <div
+          id="autocomplete-list"
+          class="autocomplete-list"
+          role="listbox"
+          aria-label="Sugestões de produtos"
+        ></div>
+
       </div>
 
-      <!-- Produto selecionado -->
       <div id="produto-selecionado" class="produto-badge hidden">
-        <div class="produto-badge-icon">✅</div>
+
+        <div class="produto-badge-icon">✓</div>
+
         <div class="produto-badge-info">
+
           <span class="produto-badge-code" id="badge-code"></span>
+
           <span class="produto-badge-name" id="badge-name"></span>
+
           <span class="produto-badge-palete" id="badge-palete"></span>
+
         </div>
+
       </div>
+
     </section>
 
-    <!-- CARD: QUANTIDADE -->
+
+    <!-- QUANTIDADE -->
     <section class="card" id="card-qtd">
+
       <h2 class="card-title">🔢 Quantidade Recebida</h2>
+
       <div class="field-group">
-        <label class="field-label" for="qtd-input">Total de Caixas / Fardos</label>
+
+        <label class="field-label" for="qtd-input">
+          Total de Caixas / Fardos
+        </label>
+
         <input
           type="number"
           id="qtd-input"
@@ -73,76 +236,69 @@
           inputmode="numeric"
           pattern="[0-9]*"
         />
+
       </div>
+
       <button class="btn btn-primary" id="btn-calcular">
-        <span>Calcular Paletes</span>
+        Calcular Paletes
       </button>
+
     </section>
 
-    <!-- CARD: RESULTADO -->
+
+    <!-- RESULTADO -->
     <section class="card card-resultado hidden" id="card-resultado">
+
       <h2 class="card-title">📊 Resultado</h2>
 
       <div class="resultado-produto" id="res-produto-info"></div>
 
       <div class="resultado-grid">
+
         <div class="resultado-item resultado-item--paletes">
+
           <div class="resultado-icon">🏗️</div>
-          <div class="resultado-numero" id="res-paletes">0</div>
-          <div class="resultado-label">Paletes Fechados</div>
+
+          <div class="resultado-numero" id="res-paletes">
+            0
+          </div>
+
+          <div class="resultado-label">
+            Paletes Fechados
+          </div>
+
         </div>
+
         <div class="resultado-item resultado-item--avulsas">
+
           <div class="resultado-icon">📦</div>
-          <div class="resultado-numero" id="res-avulsas">0</div>
-          <div class="resultado-label">Caixas Avulsas</div>
+
+          <div class="resultado-numero" id="res-avulsas">
+            0
+          </div>
+
+          <div class="resultado-label">
+            Caixas Avulsas
+          </div>
+
         </div>
+
       </div>
 
       <button class="btn btn-success" id="btn-adicionar">
         ➕ Adicionar à Carga
       </button>
-    </section>
 
-    <!-- CARD: HISTÓRICO / CARGA -->
-    <section class="card" id="card-carga">
-      <div class="carga-header">
-        <h2 class="card-title" style="margin-bottom:0">🚛 Carga do Caminhão</h2>
-        <button class="btn btn-danger-sm" id="btn-limpar-carga">🗑️ Limpar</button>
-      </div>
-
-      <!-- Resumo total -->
-      <div class="carga-resumo" id="carga-resumo">
-        <div class="resumo-item">
-          <span class="resumo-valor" id="total-paletes">0</span>
-          <span class="resumo-label">Paletes</span>
-        </div>
-        <div class="resumo-divider"></div>
-        <div class="resumo-item">
-          <span class="resumo-valor" id="total-avulsas">0</span>
-          <span class="resumo-label">Cx Avulsas</span>
-        </div>
-        <div class="resumo-divider"></div>
-        <div class="resumo-item">
-          <span class="resumo-valor" id="total-itens">0</span>
-          <span class="resumo-label">Produtos</span>
-        </div>
-      </div>
-
-      <!-- Lista de itens -->
-      <div id="lista-carga" class="lista-carga">
-        <div class="lista-vazia" id="lista-vazia">
-          <p>Nenhum item adicionado ainda.</p>
-          <p>Calcule e adicione produtos à carga.</p>
-        </div>
-      </div>
     </section>
 
   </main>
 
-  <!-- TOAST NOTIFICATION -->
+
   <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
 
   <script src="dados.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
