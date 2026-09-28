@@ -53,8 +53,8 @@ function buscarProdutos(query) {
   for (const p of produtos) {
     const code = String(p.item);
     const desc = normalizar(p.descricao);
-    // Match por código (começa com) ou descrição (contém)
-    if (code.startsWith(q) || desc.includes(q)) {
+    // Match por: código começa com, código termina com (últimos dígitos), ou descrição contém
+    if (code.startsWith(q) || code.endsWith(q) || desc.includes(q)) {
       resultados.push(p);
       if (resultados.length >= 30) break;
     }
