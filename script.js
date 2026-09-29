@@ -48,7 +48,7 @@ const $totalAvulsas  = document.getElementById('total-avulsas');
 const $totalItens    = document.getElementById('total-itens');
 
 const $toast         = document.getElementById('toast');
-
+const $btnLimparHistorico = document.getElementById('btn-limpar-historico');
 
 // ── Elementos das cargas ───────────────────
 
@@ -1548,9 +1548,45 @@ $btnFinalizarCarga.addEventListener(
   finalizarCarga
 );
 
+function limparHistorico() {
+
+  const cargasFinalizadas = state.cargas.filter(
+    carga => carga.status === 'finalizada'
+  );
+
+  if (cargasFinalizadas.length === 0) {
+    showToast('⚠️ O histórico já está vazio.', 'warning');
+    return;
+  }
+
+  if (!confirm('Deseja realmente apagar todo o histórico de cargas?')) {
+    return;
+  }
+
+  // Mantém somente as cargas que ainda estão em andamento
+  state.cargas = state.cargas.filter(
+    carga => carga.status !== 'finalizada'
+  );
+
+  // Se a carga ativa foi afetada, limpa a seleção
+  if (
+    state.cargaAtivaId &&
+    !state.cargas.some(
+      carga => carga.id === state.cargaAtivaId
+    )
+  ) {
+    state.cargaAtivaId = null;
+  }
+
+  salvarCargas();
+
+  renderCargas();
+  renderCargaAtiva();
+
+  showToast('🗑️ Histórico apagado!', 'success');
+}
 
 // ── Inicialização ──────────────────────────
-
 function init() {
 
   carregarCargas();
@@ -1615,4 +1651,5 @@ function init() {
 
 }
 
+$btnLimparHistorico.addEventListener('click', limparHistorico);
 init();
